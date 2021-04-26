@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>grammar</title>
+  <style>
+    .title{
+      background-color: orange;
+      width: 200px;
+    }
+  </style>
+</head>
+<body>
+<div id="test"></div>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/新版本/react.development.js"></script>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/新版本/react-dom.development.js"></script>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/新版本/babel.min.js"></script>
+<script type="text/babel">
+  const id = "title"
+  const content = "hello, react"
+  const VDOM = (
+          <div>
+            <h2 className="title" id={id}>
+              <span style={{color: 'white', fontSize:'20px'}}>{content}</span>
+            </h2>
+            <input/>
+          </div>
+  )
+  ReactDOM.render(VDOM, document.getElementById('test'))
+</script>
+</body>
+</html>
