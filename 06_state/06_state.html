@@ -11,15 +11,11 @@
 <script type="text/javascript" src="../react全家桶资料/03_依赖包/新版本/babel.min.js"></script>
 <script type="text/babel">
   class Weather extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = {isHot:true}
-      this.changeWeather = this.changeWeather.bind(this)
-    }
+    state = {isHot:true}
     render(){
       return <h2 onClick={this.changeWeather}>the weather is {this.state.isHot ? 'hot' : 'cool'}</h2>
     }
-    changeWeather(){
+    changeWeather = ()=>{
       const isHot = this.state.isHot
       // console.log(this.state.isHot)
       this.setState({isHot:!isHot})
