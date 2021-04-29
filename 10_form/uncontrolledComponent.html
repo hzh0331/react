@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>uncontrolledComponent</title>
+</head>
+<body>
+<div id="test1"></div>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/旧版本/react.development.js"></script>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/旧版本/react-dom.development.js"></script>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/旧版本/babel.min.js"></script>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/旧版本/prop-types.js"></script>
+<script type="text/babel">
+  class Login extends React.Component{
+    submit = (event) =>{
+      event.preventDefault()
+      const {username, password} = this
+      alert('username : '+username.value + ' , password : ' + password.value)
+    }
+    render(){
+      return (
+              <form onSubmit={this.submit}>
+                <input ref={c => this.username = c} type="text" placeholder="please input username"/>
+                <input ref={c => this.password = c} type="password" placeholder="please input password"/>
+                <button>submit</button>
+              </form>
+      )
+    }
+  }
+
+  ReactDOM.render(<Login/>, document.getElementById("test1"))
+</script>
+</body>
+</html>

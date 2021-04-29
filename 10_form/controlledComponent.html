@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>controlledComponent</title>
+</head>
+<body>
+<div id="test1"></div>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/旧版本/react.development.js"></script>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/旧版本/react-dom.development.js"></script>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/旧版本/babel.min.js"></script>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/旧版本/prop-types.js"></script>
+<script type="text/babel">
+  class Login extends React.Component{
+    state = {
+      userName : '',
+      password : ''
+    }
+
+    saveUserName = (event) =>{
+      this.setState({userName:event.target.value})
+    }
+
+    savePassword = (event) =>{
+      this.setState({password:event.target.value})
+    }
+
+    submit = (event) =>{
+      event.preventDefault()
+      const {userName, password} = this.state
+      alert('username : '+userName + ' , password : ' + password)
+    }
+    render(){
+      return (
+              <form onSubmit={this.submit}>
+                <input onChange={this.saveUserName} type="text" placeholder="please input username"/>
+                <input onChange={this.savePassword} type="password" placeholder="please input password"/>
+                <button>submit</button>
+              </form>
+      )
+    }
+  }
+
+  ReactDOM.render(<Login/>, document.getElementById("test1"))
+</script>
+</body>
+</html>
