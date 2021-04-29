@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>string_refs</title>
+  <title>callback_refs</title>
 </head>
 <body>
 <div id="test1"></div>
@@ -13,18 +13,18 @@
 <script type="text/babel">
   class Demo extends React.Component {
     click=()=>{
-      alert(this.refs.input1.value)
+      alert(this.input1.value)
     }
 
     blur=()=>{
-      alert(this.refs.input2.value)
+      alert(this.input2.value)
     }
 
     render() {
       return (<div>
-        <input ref="input1" placeholder="please input value"/> &nbsp;
+        <input ref={currentNode => this.input1 = currentNode} placeholder="please input value"/> &nbsp;
         <button onClick={this.click}>click</button> &nbsp;
-        <input ref="input2" onBlur={this.blur} placeholder="please input value"/>
+        <input ref={currentNode => this.input2 = currentNode} onBlur={this.blur} placeholder="please input value"/>
       </div>)
     }
   }
