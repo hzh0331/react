@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Curring</title>
+</head>
+<body>
+<div id="test1"></div>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/旧版本/react.development.js"></script>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/旧版本/react-dom.development.js"></script>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/旧版本/babel.min.js"></script>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/旧版本/prop-types.js"></script>
+<script type="text/babel">
+  class Login extends React.Component{
+    state = {
+      userName : '',
+      password : ''
+    }
+
+    save = (dataType) =>{
+      return ()=>{
+        this.setState({[dataType]:event.target.value})
+      }
+    }
+
+    submit = (event) =>{
+      event.preventDefault()
+      const {userName, password} = this.state
+      alert('username : '+userName + ' , password : ' + password)
+    }
+    render(){
+      return (
+              <form onSubmit={this.submit}>
+                <input onChange={this.save('userName')} type="text" placeholder="please input username"/>
+                <input onChange={this.save('password')} type="password" placeholder="please input password"/>
+                <button>submit</button>
+              </form>
+      )
+    }
+  }
+
+  ReactDOM.render(<Login/>, document.getElementById("test1"))
+</script>
+</body>
+</html>
