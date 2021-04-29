@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>refs</title>
+</head>
+<body>
+<div id="test1"></div>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/旧版本/react.development.js"></script>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/旧版本/react-dom.development.js"></script>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/旧版本/babel.min.js"></script>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/旧版本/prop-types.js"></script>
+<script type="text/babel">
+  class Demo extends React.Component {
+    click=()=>{
+      alert(this.refs.input1.value)
+    }
+
+    blur=()=>{
+      alert(this.refs.input2.value)
+    }
+
+    render() {
+      return (<div>
+        <input ref="input1" placeholder="please input value"/> &nbsp;
+        <button onClick={this.click}>click</button> &nbsp;
+        <input ref="input2" onBlur={this.blur} placeholder="please input value"/>
+      </div>)
+    }
+  }
+  ReactDOM.render(<Demo/>, document.getElementById('test1'))
+
+</script>
+</body>
+</html>
