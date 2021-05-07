@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>father component</title>
+</head>
+<body>
+<div id="test"></div>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/旧版本/react.development.js"></script>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/旧版本/react-dom.development.js"></script>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/旧版本/babel.min.js"></script>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/旧版本/prop-types.js"></script>
+<script type="text/babel">
+    class A extends React.Component{
+        state = {name:'Zihao'}
+
+        changeName = ()=>{
+           this.setState({name : 'Evan'})
+        }
+
+        render(){
+            return (
+                <div>
+                    A<br/>
+                    <button onClick={this.changeName}>change to english</button><br/>
+                    <B name={this.state.name}/>
+                </div>
+            )
+        }
+    }
+
+    class B extends React.Component{
+        shouldComponentUpdate(){
+            console.log("B--shouldComponentUpdate")
+            return true
+        }
+
+        componentWillUpdate(){
+            console.log("B--componentWillUpdate")
+        }
+        render(){
+            console.log("B--render")
+            return (
+                <div>
+                    {this.props.name}
+                </div>
+            )
+        }
+
+        componentDidUpdate(){
+            console.log("B--componentDidUpdate")
+        }
+    }
+
+    ReactDOM.render(<A/>, document.getElementById('test'))
+</script>
+</body>
+</html>
