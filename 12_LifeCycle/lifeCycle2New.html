@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>life cycle2 new</title>
+</head>
+<body>
+<div id="test"></div>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/新版本/react.development.js"></script>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/新版本/react-dom.development.js"></script>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/新版本/babel.min.js"></script>
+<script type="text/javascript" src="../react全家桶资料/03_依赖包/新版本/prop-types.js"></script>
+<script type="text/babel">
+    class Count extends React.Component{
+        constructor(props) {
+            super(props);
+            this.state = {count:0}
+            console.log("Count--constructor")
+        }
+
+        add = ()=>{
+            let {count} = this.state
+            count += 1
+            this.setState({count});
+        }
+
+        unmount = ()=>{
+            ReactDOM.unmountComponentAtNode(document.getElementById("test"))
+        }
+
+        force = ()=>{
+            this.forceUpdate()
+        }
+
+
+        shouldComponentUpdate(){
+            console.log("Count--shouldComponentUpdate")
+            return false
+        }
+
+        static getDerivedStateFromProps(props, state){
+            console.log("Count--getDerivedStateFromProps");
+            return props
+        }
+
+        render(){
+            console.log("Count--render")
+            return (
+                <div>
+                    <h2>current count : {this.state.count}</h2><br/>
+                    <button onClick={this.add}>add</button>
+                    <button onClick={this.unmount}>unmount</button>
+                    <button onClick={this.force}>force</button>
+                </div>
+                )
+        }
+
+        componentDidMount(){
+            console.log("Count--componentDidMount")
+        }
+
+        componentDidUpdate(){
+            console.log("Count--componentDidUpdate")
+        }
+
+        componentWillUnmount(){
+            console.log("Count--componentDidUnmount")
+        }
+    }
+    ReactDOM.render(<Count count={199}/>, document.getElementById("test"))
+</script>
+</body>
+</html>
