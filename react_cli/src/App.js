@@ -53,13 +53,21 @@ export default class App extends Component{
         this.setState({todos: newTodos})
     }
 
+    deleteTodo = (id) =>{
+        let {todos} = this.state
+        let newTodos = todos.filter((todoObj) =>{
+            return todoObj.id !== id
+        })
+        this.setState({todos: newTodos})
+    }
+
     render() {
         let {todos} = this.state
         return (
             <div className="todo-container">
                 <div className="todo-wrap">
                     <Header addTodo={this.addTodo}/>
-                    <List todos={todos} updateTodo={this.updateTodo}/>
+                    <List deleteTodo={this.deleteTodo} todos={todos} updateTodo={this.updateTodo}/>
                     <Footer/>
                 </div>
             </div>

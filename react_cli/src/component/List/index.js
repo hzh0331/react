@@ -11,11 +11,11 @@ class List extends Component {
     }
 
     render() {
-        let {todos, updateTodo} = this.props
+        let {todos, updateTodo, deleteTodo} = this.props
         return (
             <ul className="todo-main">
                 {todos.map(todo =>{
-                        return <Item key={todo.id} {...todo} updateTodo={updateTodo}/>
+                        return <Item key={todo.id} {...todo} deleteTodo={deleteTodo} updateTodo={updateTodo}/>
                 })}
 
             </ul>
