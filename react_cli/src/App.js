@@ -4,6 +4,11 @@ import {Component} from "react";
 import Hello from "./component/Hello/Hello";
 import Welcome from "./component/Welcome/Welcome";
 
+import Item from "./component/Item"
+import List from "./component/List"
+import Footer from "./component/Footer"
+import Header from "./component/Header"
+
 // function App() {
 //   return (
 //     <div className="App">
@@ -28,9 +33,16 @@ import Welcome from "./component/Welcome/Welcome";
 export default class App extends Component{
   render() {
     return (
-        <div>
-          <Hello/>
-          <Welcome/>
+        // <div>
+        //   <Hello/>
+        //   <Welcome/>
+        // </div>
+        <div className="todo-container">
+            <div className="todo-wrap">
+                <Header/>
+                <List/>
+                <Footer/>
+            </div>
         </div>
     )
   }
