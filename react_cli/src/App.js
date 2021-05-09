@@ -37,16 +37,23 @@ export default class App extends Component{
             {id:'003', name:'sleep', done:false}
         ]
     }
+
+    addTodo = (todoObj)=>{
+        let {todos} = this.state
+        let newTodos = [todoObj, ...todos]
+        this.setState({todos:newTodos})
+    }
+
     render() {
         let {todos} = this.state
-    return (
-        <div className="todo-container">
-            <div className="todo-wrap">
-                <Header/>
-                <List todos={todos}/>
-                <Footer/>
+        return (
+            <div className="todo-container">
+                <div className="todo-wrap">
+                    <Header addTodo={this.addTodo}/>
+                    <List todos={todos}/>
+                    <Footer/>
+                </div>
             </div>
-        </div>
-    )
+        )
     }
 };
