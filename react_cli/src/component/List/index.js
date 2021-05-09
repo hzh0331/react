@@ -5,9 +5,13 @@ import Item from "../Item";
 
 class List extends Component {
     render() {
+        let {todos} = this.props
         return (
             <ul className="todo-main">
-                <Item/>
+                {todos.map(todo =>{
+                        return <Item key={todo.id} {...todo}/>
+                })}
+
             </ul>
         );
     }

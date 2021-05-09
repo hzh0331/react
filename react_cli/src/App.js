@@ -31,19 +31,22 @@ import Header from "./component/Header"
 // }
 
 export default class App extends Component{
-  render() {
+    state = {todos:[
+            {id:'001', name:'eat', done:true},
+            {id:'002', name:'coding', done:true},
+            {id:'003', name:'sleep', done:false}
+        ]
+    }
+    render() {
+        let {todos} = this.state
     return (
-        // <div>
-        //   <Hello/>
-        //   <Welcome/>
-        // </div>
         <div className="todo-container">
             <div className="todo-wrap">
                 <Header/>
-                <List/>
+                <List todos={todos}/>
                 <Footer/>
             </div>
         </div>
     )
-  }
+    }
 };
