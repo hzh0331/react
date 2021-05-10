@@ -28,7 +28,7 @@ class Item extends Component {
         return (
             <li style={{backgroundColor : mouse ? '#ddd' : 'white'}} onMouseEnter={this.handleMouse(true)} onMouseLeave={this.handleMouse(false)}>
                 <label>
-                    <input type="checkbox" defaultChecked={done} onChange={this.handleChecked(id)}/>
+                    <input type="checkbox" checked={done} onChange={this.handleChecked(id)}/>
                     <span>{name}</span>
                 </label>
                 <button onClick={() => this.deleteTodo(id)} className="btn btn-danger" style={{display: mouse ? 'block' : 'none'}}>删除</button>
