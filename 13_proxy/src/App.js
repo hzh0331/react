@@ -13,10 +13,21 @@ export default class App extends Component {
           }
       )
   }
+
+    getCarInfo = () =>{
+        axios.get("http://localhost:3000/students").then(
+            response=>{
+                console.log(response.data)
+            },fail=>{
+
+            }
+        )
+    }
   render() {
     return (
         <div>
           <button onClick={this.getStudentInfo}>click for students' information</button>
+            <button onClick={this.getCarInfo}>click for cars' information</button>
         </div>
     )
   }
