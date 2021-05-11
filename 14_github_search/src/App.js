@@ -5,18 +5,17 @@ import Search from "./components/Search";
 import List from "./components/List";
 
 export default class App extends Component{
-    state = {users:[]}
+    state = {users:[], isLoading:false, isFirst:true, err:''}
 
-    searchForUsers = (users) =>{
-        this.setState({users})
+    updateState = (state) =>{
+        this.setState(state)
     }
 
     render(){
-        let {users} = this.state
         return (
             <div className="container">
-              <Search searchForUsers={this.searchForUsers}/>
-              <List users={users}/>
+              <Search updateState={this.updateState}/>
+              <List {...this.state}/>
             </div>
         )
     }
