@@ -3469,7 +3469,7 @@ function reenableLogs() {
  * 
  */
 // This is a DevTools fork of ReactComponentStackFrame.
-// This fork enables DevTools to use the same "native" component stack format,
+// This fork enables DevTools to use the same "native" pages stack format,
 // while still maintaining support for multiple renderer versions
 // (which use different values for ReactTypeOfWork).
  // These methods are safe to import from shared;
@@ -3591,7 +3591,7 @@ function describeNativeComponentFrame(fn, construct, currentDispatcherRef) {
           // If we're about to return the first line, and the control is also on the same
           // line, that's a pretty good indicator that our sample threw at same line as
           // the control. I.e. before we entered the sample frame. So we ignore this result.
-          // This can happen if you passed a class to function component, or non-function.
+          // This can happen if you passed a class to function pages, or non-function.
           if (s !== 1 || c !== 1) {
             do {
               s--;
@@ -3676,7 +3676,7 @@ function describeUnknownElementTypeFrameInDEV(type, source, ownerFn, currentDisp
 
       case ReactSymbols["l" /* MEMO_NUMBER */]:
       case ReactSymbols["m" /* MEMO_SYMBOL_STRING */]:
-        // Memo may contain any component type so we recursively resolve it.
+        // Memo may contain any pages type so we recursively resolve it.
         return describeUnknownElementTypeFrameInDEV(type.type, source, ownerFn, currentDispatcherRef);
 
       case ReactSymbols["a" /* BLOCK_NUMBER */]:
@@ -3691,7 +3691,7 @@ function describeUnknownElementTypeFrameInDEV(type, source, ownerFn, currentDisp
           const init = lazyComponent._init;
 
           try {
-            // Lazy may contain any component type so we recursively resolve it.
+            // Lazy may contain any pages type so we recursively resolve it.
             return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn, currentDispatcherRef);
           } catch (x) {}
         }
@@ -3710,7 +3710,7 @@ function describeUnknownElementTypeFrameInDEV(type, source, ownerFn, currentDisp
  * 
  */
 // This is a DevTools fork of ReactFiberComponentStack.
-// This fork enables DevTools to use the same "native" component stack format,
+// This fork enables DevTools to use the same "native" pages stack format,
 // while still maintaining support for multiple renderer versions
 // (which use different values for ReactTypeOfWork).
 
@@ -3793,7 +3793,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
  */
 
 
-const APPEND_STACK_TO_METHODS = ['error', 'trace', 'warn']; // React's custom built component stack strings match "\s{4}in"
+const APPEND_STACK_TO_METHODS = ['error', 'trace', 'warn']; // React's custom built pages stack strings match "\s{4}in"
 // Chrome's prefix matches "\s{4}at"
 
 const PREFIX_REGEX = /\s{4}(in|at)\s{1}/; // Firefox and Safari have no prefix ("")
@@ -3817,7 +3817,7 @@ function dangerous_setTargetConsoleForTesting(targetConsoleForTesting) {
   for (const method in targetConsole) {
     targetConsoleMethods[method] = console[method];
   }
-} // v16 renderers should use this method to inject internals necessary to generate a component stack.
+} // v16 renderers should use this method to inject internals necessary to generate a pages stack.
 // These internals will be used if the console is patched.
 // Injecting them separately allows the console to easily be patched or un-patched later (at runtime).
 
@@ -3825,7 +3825,7 @@ function registerRenderer(renderer) {
   const currentDispatcherRef = renderer.currentDispatcherRef,
         getCurrentFiber = renderer.getCurrentFiber,
         findFiberByHostInstance = renderer.findFiberByHostInstance,
-        version = renderer.version; // Ignore React v15 and older because they don't expose a component stack anyway.
+        version = renderer.version; // Ignore React v15 and older because they don't expose a pages stack anyway.
 
   if (typeof findFiberByHostInstance !== 'function') {
     return;
@@ -3847,7 +3847,7 @@ function registerRenderer(renderer) {
 const consoleSettingsRef = {
   appendComponentStack: false,
   breakOnConsoleErrors: false
-}; // Patches console methods to append component stack for the current fiber.
+}; // Patches console methods to append pages stack for the current fiber.
 // Call unpatch() to remove the injected behavior.
 
 function patch({
@@ -3885,13 +3885,13 @@ function patch({
 
         if (latestAppendComponentStack) {
           try {
-            // If we are ever called with a string that already has a component stack, e.g. a React error/warning,
+            // If we are ever called with a string that already has a pages stack, e.g. a React error/warning,
             // don't append a second stack.
             const lastArg = args.length > 0 ? args[args.length - 1] : null;
             const alreadyHasComponentStack = lastArg !== null && (PREFIX_REGEX.test(lastArg) || ROW_COLUMN_NUMBER_REGEX.test(lastArg));
 
             if (!alreadyHasComponentStack) {
-              // If there's a component stack for at least one of the injected renderers, append it.
+              // If there's a pages stack for at least one of the injected renderers, append it.
               // We don't handle the edge case of stacks for more than one (e.g. interleaved renderers?)
               // eslint-disable-next-line no-for-of-loops/no-for-of-loops
               var _iterator = _createForOfIteratorHelper(injectedRenderers.values()),
@@ -3942,7 +3942,7 @@ function patch({
       targetConsole[method] = overrideMethod;
     } catch (error) {}
   });
-} // Removed component stack patch from console methods.
+} // Removed pages stack patch from console methods.
 
 function unpatch() {
   if (unpatchFn !== null) {
@@ -4514,7 +4514,7 @@ function attach(hook, rendererID, renderer, global) {
         setSuspenseHandler = renderer.setSuspenseHandler,
         scheduleUpdate = renderer.scheduleUpdate;
   const supportsTogglingSuspense = typeof setSuspenseHandler === 'function' && typeof scheduleUpdate === 'function'; // Patching the console enables DevTools to do a few useful things:
-  // * Append component stacks to warnings and error messages
+  // * Append pages stacks to warnings and error messages
   // * Disable logging during re-renders to inspect hooks (see inspectHooksOfFiber)
   //
   // Don't patch in test environments because we don't want to interfere with Jest's own console overrides.
@@ -4593,7 +4593,7 @@ function attach(hook, rendererID, renderer, global) {
           break;
       }
     });
-  } // The renderer interface can't read saved component filters directly,
+  } // The renderer interface can't read saved pages filters directly,
   // because they are stored in localStorage within the context of the extension.
   // Instead it relies on the extension to pass filters through.
 
@@ -4604,7 +4604,7 @@ function attach(hook, rendererID, renderer, global) {
     // Unfortunately this feature is not expected to work for React Native for now.
     // It would be annoying for us to spam YellowBox warnings with unactionable stuff,
     // so for now just skip this message...
-    //console.warn('⚛️ DevTools: Could not locate saved component filters');
+    //console.warn('⚛️ DevTools: Could not locate saved pages filters');
     // Fallback to assuming the default filters in this case.
     applyComponentFilters(Object(utils["g" /* getDefaultComponentFilters */])());
   } // If necessary, we can revisit optimizing this operation.
@@ -5833,7 +5833,7 @@ function attach(hook, rendererID, renderer, global) {
 
     if (!fiber) {
       return fibers;
-    } // Next we'll drill down this component to find all HostComponent/Text.
+    } // Next we'll drill down this pages to find all HostComponent/Text.
 
 
     let node = fiber;
@@ -5976,7 +5976,7 @@ function attach(hook, rendererID, renderer, global) {
       const state = isFiberMountedImpl(fiber);
 
       if (state === UNMOUNTED) {
-        throw Error('Unable to find node on an unmounted component.');
+        throw Error('Unable to find node on an unmounted pages.');
       }
 
       if (state === MOUNTING) {
@@ -6004,7 +6004,7 @@ function attach(hook, rendererID, renderer, global) {
 
       if (parentB === null) {
         // There is no alternate. This is an unusual case. Currently, it only
-        // happens when a Suspense component is hidden. An extra fragment fiber
+        // happens when a Suspense pages is hidden. An extra fragment fiber
         // is inserted in between the Suspense fiber and its children. Skip
         // over this extra fragment fiber and proceed to the next parent.
         const nextParent = parentA.return;
@@ -6028,7 +6028,7 @@ function attach(hook, rendererID, renderer, global) {
           if (child === a) {
             // We've determined that A is the current branch.
             if (isFiberMountedImpl(parentA) !== MOUNTED) {
-              throw Error('Unable to find node on an unmounted component.');
+              throw Error('Unable to find node on an unmounted pages.');
             }
 
             return fiber;
@@ -6037,7 +6037,7 @@ function attach(hook, rendererID, renderer, global) {
           if (child === b) {
             // We've determined that B is the current branch.
             if (isFiberMountedImpl(parentA) !== MOUNTED) {
-              throw Error('Unable to find node on an unmounted component.');
+              throw Error('Unable to find node on an unmounted pages.');
             }
 
             return alternate;
@@ -6048,7 +6048,7 @@ function attach(hook, rendererID, renderer, global) {
         // way this could possibly happen is if this was unmounted, if at all.
 
 
-        throw Error('Unable to find node on an unmounted component.');
+        throw Error('Unable to find node on an unmounted pages.');
       }
 
       if (a.return !== b.return) {
@@ -6121,7 +6121,7 @@ function attach(hook, rendererID, renderer, global) {
 
 
     if (a.tag !== HostRoot) {
-      throw Error('Unable to find node on an unmounted component.');
+      throw Error('Unable to find node on an unmounted pages.');
     }
 
     if (a.stateNode.current === a) {
@@ -6373,9 +6373,9 @@ function attach(hook, rendererID, renderer, global) {
       !isTimedOutSuspense || // If it's showing fallback because we previously forced it to,
       // allow toggling it back to remove the fallback override.
       forceFallbackForSuspenseIDs.has(id)),
-      // Can view component source location.
+      // Can view pages source location.
       canViewSource,
-      // Does the component have legacy context attached to it.
+      // Does the pages have legacy context attached to it.
       hasLegacyContext,
       key: key != null ? key : null,
       displayName: getDisplayNameForFiber(fiber),
@@ -6388,7 +6388,7 @@ function attach(hook, rendererID, renderer, global) {
       state: usesHooks ? null : memoizedState,
       // List of owners
       owners,
-      // Location of component in source code.
+      // Location of pages in source code.
       source: _debugSource || null,
       rootType,
       rendererPackageName: renderer.rendererPackageName,
@@ -8314,7 +8314,7 @@ exports.typeOf = y;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = (":root {\n  /**\n   * IMPORTANT: When new theme variables are added below– also add them to SettingsContext updateThemeVariables()\n   */\n\n  /* Light theme */\n  --light-color-attribute-name: #ef6632;\n  --light-color-attribute-name-not-editable: #23272f;\n  --light-color-attribute-name-inverted: rgba(255, 255, 255, 0.7);\n  --light-color-attribute-value: #1a1aa6;\n  --light-color-attribute-value-inverted: #ffffff;\n  --light-color-attribute-editable-value: #1a1aa6;\n  --light-color-background: #ffffff;\n  --light-color-background-hover: rgba(0, 136, 250, 0.1);\n  --light-color-background-inactive: #e5e5e5;\n  --light-color-background-invalid: #fff0f0;\n  --light-color-background-selected: #0088fa;\n  --light-color-button-background: #ffffff;\n  --light-color-button-background-focus: #ededed;\n  --light-color-button: #5f6673;\n  --light-color-button-disabled: #cfd1d5;\n  --light-color-button-active: #0088fa;\n  --light-color-button-focus: #23272f;\n  --light-color-button-hover: #23272f;\n  --light-color-border: #eeeeee;\n  --light-color-commit-did-not-render-fill: #cfd1d5;\n  --light-color-commit-did-not-render-fill-text: #000000;\n  --light-color-commit-did-not-render-pattern: #cfd1d5;\n  --light-color-commit-did-not-render-pattern-text: #333333;\n  --light-color-commit-gradient-0: #37afa9;\n  --light-color-commit-gradient-1: #63b19e;\n  --light-color-commit-gradient-2: #80b393;\n  --light-color-commit-gradient-3: #97b488;\n  --light-color-commit-gradient-4: #abb67d;\n  --light-color-commit-gradient-5: #beb771;\n  --light-color-commit-gradient-6: #cfb965;\n  --light-color-commit-gradient-7: #dfba57;\n  --light-color-commit-gradient-8: #efbb49;\n  --light-color-commit-gradient-9: #febc38;\n  --light-color-commit-gradient-text: #000000;\n  --light-color-component-name: #6a51b2;\n  --light-color-component-name-inverted: #ffffff;\n  --light-color-component-badge-background: rgba(0, 0, 0, 0.1);\n  --light-color-component-badge-background-inverted: rgba(255, 255, 255, 0.25);\n  --light-color-component-badge-count: #777d88;\n  --light-color-component-badge-count-inverted: rgba(255, 255, 255, 0.7);\n  --light-color-context-background: rgba(0,0,0,.9);\n  --light-color-context-background-hover: rgba(255, 255, 255, 0.1);\n  --light-color-context-background-selected: #178fb9;\n  --light-color-context-border: #3d424a;\n  --light-color-context-text: #ffffff;\n  --light-color-context-text-selected: #ffffff;\n  --light-color-dim: #777d88;\n  --light-color-dimmer: #cfd1d5;\n  --light-color-dimmest: #eff0f1;\n  --light-color-error-background: hsl(0, 100%, 97%);\n  --light-color-error-border: hsl(0, 100%, 92%);\n  --light-color-error-text: #ff0000;\n  --light-color-expand-collapse-toggle: #777d88;\n  --light-color-link: #0000ff;\n  --light-color-modal-background: rgba(255, 255, 255, 0.75);\n  --light-color-record-active: #fc3a4b;\n  --light-color-record-hover: #3578e5;\n  --light-color-record-inactive: #0088fa;\n  --light-color-scroll-thumb: #c2c2c2;\n  --light-color-scroll-track: #fafafa;\n  --light-color-search-match: yellow;\n  --light-color-search-match-current: #f7923b;\n  --light-color-selected-tree-highlight-active: rgba(0, 136, 250, 0.1);\n  --light-color-selected-tree-highlight-inactive: rgba(0, 0, 0, 0.05);\n  --light-color-shadow: rgba(0, 0, 0, 0.25);\n  --light-color-tab-selected-border: #0088fa;\n  --light-color-text: #000000;\n  --light-color-text-invalid: #ff0000;\n  --light-color-text-selected: #ffffff;\n  --light-color-toggle-background-invalid: #fc3a4b;\n  --light-color-toggle-background-on: #0088fa;\n  --light-color-toggle-background-off: #cfd1d5;\n  --light-color-toggle-text: #ffffff;\n  --light-color-tooltip-background: rgba(0, 0, 0, 0.9);\n  --light-color-tooltip-text: #ffffff;\n\n  /* Dark theme */\n  --dark-color-attribute-name: #9d87d2;\n  --dark-color-attribute-name-not-editable: #ededed;\n  --dark-color-attribute-name-inverted: #282828;\n  --dark-color-attribute-value: #cedae0;\n  --dark-color-attribute-value-inverted: #ffffff;\n  --dark-color-attribute-editable-value: yellow;\n  --dark-color-background: #282c34;\n  --dark-color-background-hover: rgba(255, 255, 255, 0.1);\n  --dark-color-background-inactive: #3d424a;\n  --dark-color-background-invalid: #5c0000;\n  --dark-color-background-selected: #178fb9;\n  --dark-color-button-background: #282c34;\n  --dark-color-button-background-focus: #3d424a;\n  --dark-color-button: #afb3b9;\n  --dark-color-button-active: #61dafb;\n  --dark-color-button-disabled: #4f5766;\n  --dark-color-button-focus: #a2e9fc;\n  --dark-color-button-hover: #ededed;\n  --dark-color-border: #3d424a;\n  --dark-color-commit-did-not-render-fill: #777d88;\n  --dark-color-commit-did-not-render-fill-text: #000000;\n  --dark-color-commit-did-not-render-pattern: #666c77;\n  --dark-color-commit-did-not-render-pattern-text: #ffffff;\n  --dark-color-commit-gradient-0: #37afa9;\n  --dark-color-commit-gradient-1: #63b19e;\n  --dark-color-commit-gradient-2: #80b393;\n  --dark-color-commit-gradient-3: #97b488;\n  --dark-color-commit-gradient-4: #abb67d;\n  --dark-color-commit-gradient-5: #beb771;\n  --dark-color-commit-gradient-6: #cfb965;\n  --dark-color-commit-gradient-7: #dfba57;\n  --dark-color-commit-gradient-8: #efbb49;\n  --dark-color-commit-gradient-9: #febc38;\n  --dark-color-commit-gradient-text: #000000;\n  --dark-color-component-name: #61dafb;\n  --dark-color-component-name-inverted: #282828;\n  --dark-color-component-badge-background: rgba(255, 255, 255, 0.25);\n  --dark-color-component-badge-background-inverted: rgba(0, 0, 0, 0.25);\n  --dark-color-component-badge-count: #8f949d;\n  --dark-color-component-badge-count-inverted: rgba(255, 255, 255, 0.7);\n  --dark-color-context-background: rgba(255,255,255,.9);\n  --dark-color-context-background-hover: rgba(0, 136, 250, 0.1);\n  --dark-color-context-background-selected: #0088fa;\n  --dark-color-context-border: #eeeeee;\n  --dark-color-context-text: #000000;\n  --dark-color-context-text-selected: #ffffff;\n  --dark-color-dim: #8f949d;\n  --dark-color-dimmer: #777d88;\n  --dark-color-dimmest: #4f5766;\n  --dark-color-error-background: #200;\n  --dark-color-error-border: #900;\n  --dark-color-error-text: #f55;\n  --dark-color-expand-collapse-toggle: #8f949d;\n  --dark-color-link: #61dafb;\n  --dark-color-modal-background: rgba(0, 0, 0, 0.75);\n  --dark-color-record-active: #fc3a4b;\n  --dark-color-record-hover: #a2e9fc;\n  --dark-color-record-inactive: #61dafb;\n  --dark-color-scroll-thumb: #afb3b9;\n  --dark-color-scroll-track: #313640;\n  --dark-color-search-match: yellow;\n  --dark-color-search-match-current: #f7923b;\n  --dark-color-selected-tree-highlight-active: rgba(23, 143, 185, 0.15);\n  --dark-color-selected-tree-highlight-inactive: rgba(255, 255, 255, 0.05);\n  --dark-color-shadow: rgba(0, 0, 0, 0.5);\n  --dark-color-tab-selected-border: #178fb9;\n  --dark-color-text: #ffffff;\n  --dark-color-text-invalid: #ff8080;\n  --dark-color-text-selected: #ffffff;\n  --dark-color-toggle-background-invalid: #fc3a4b;\n  --dark-color-toggle-background-on: #178fb9;\n  --dark-color-toggle-background-off: #777d88;\n  --dark-color-toggle-text: #ffffff;\n  --dark-color-tooltip-background: rgba(255, 255, 255, 0.9);\n  --dark-color-tooltip-text: #000000;\n\n  /* Font smoothing */\n  --light-font-smoothing: auto;\n  --dark-font-smoothing: antialiased;\n  --font-smoothing: auto;\n\n  /* Compact density */\n  --compact-font-size-monospace-small: 9px;\n  --compact-font-size-monospace-normal: 11px;\n  --compact-font-size-monospace-large: 15px;\n  --compact-font-size-sans-small: 10px;\n  --compact-font-size-sans-normal: 12px;\n  --compact-font-size-sans-large: 14px;\n  --compact-line-height-data: 18px;\n  --compact-root-font-size: 16px;\n\n  /* Comfortable density */\n  --comfortable-font-size-monospace-small: 10px;\n  --comfortable-font-size-monospace-normal: 13px;\n  --comfortable-font-size-monospace-large: 17px;\n  --comfortable-font-size-sans-small: 12px;\n  --comfortable-font-size-sans-normal: 14px;\n  --comfortable-font-size-sans-large: 16px;\n  --comfortable-line-height-data: 22px;\n  --comfortable-root-font-size: 20px;\n\n  /* GitHub.com system fonts */\n  --font-family-monospace: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo,\n    Courier, monospace;\n  --font-family-sans: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica,\n    Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;\n\n  /* Constant values shared between JS and CSS */\n  --interaction-commit-size: 10px;\n  --interaction-label-width: 200px;\n}\n");
+/* harmony default export */ __webpack_exports__["default"] = (":root {\n  /**\n   * IMPORTANT: When new theme variables are added below– also add them to SettingsContext updateThemeVariables()\n   */\n\n  /* Light theme */\n  --light-color-attribute-name: #ef6632;\n  --light-color-attribute-name-not-editable: #23272f;\n  --light-color-attribute-name-inverted: rgba(255, 255, 255, 0.7);\n  --light-color-attribute-value: #1a1aa6;\n  --light-color-attribute-value-inverted: #ffffff;\n  --light-color-attribute-editable-value: #1a1aa6;\n  --light-color-background: #ffffff;\n  --light-color-background-hover: rgba(0, 136, 250, 0.1);\n  --light-color-background-inactive: #e5e5e5;\n  --light-color-background-invalid: #fff0f0;\n  --light-color-background-selected: #0088fa;\n  --light-color-button-background: #ffffff;\n  --light-color-button-background-focus: #ededed;\n  --light-color-button: #5f6673;\n  --light-color-button-disabled: #cfd1d5;\n  --light-color-button-active: #0088fa;\n  --light-color-button-focus: #23272f;\n  --light-color-button-hover: #23272f;\n  --light-color-border: #eeeeee;\n  --light-color-commit-did-not-render-fill: #cfd1d5;\n  --light-color-commit-did-not-render-fill-text: #000000;\n  --light-color-commit-did-not-render-pattern: #cfd1d5;\n  --light-color-commit-did-not-render-pattern-text: #333333;\n  --light-color-commit-gradient-0: #37afa9;\n  --light-color-commit-gradient-1: #63b19e;\n  --light-color-commit-gradient-2: #80b393;\n  --light-color-commit-gradient-3: #97b488;\n  --light-color-commit-gradient-4: #abb67d;\n  --light-color-commit-gradient-5: #beb771;\n  --light-color-commit-gradient-6: #cfb965;\n  --light-color-commit-gradient-7: #dfba57;\n  --light-color-commit-gradient-8: #efbb49;\n  --light-color-commit-gradient-9: #febc38;\n  --light-color-commit-gradient-text: #000000;\n  --light-color-pages-name: #6a51b2;\n  --light-color-pages-name-inverted: #ffffff;\n  --light-color-pages-badge-background: rgba(0, 0, 0, 0.1);\n  --light-color-pages-badge-background-inverted: rgba(255, 255, 255, 0.25);\n  --light-color-pages-badge-count: #777d88;\n  --light-color-pages-badge-count-inverted: rgba(255, 255, 255, 0.7);\n  --light-color-context-background: rgba(0,0,0,.9);\n  --light-color-context-background-hover: rgba(255, 255, 255, 0.1);\n  --light-color-context-background-selected: #178fb9;\n  --light-color-context-border: #3d424a;\n  --light-color-context-text: #ffffff;\n  --light-color-context-text-selected: #ffffff;\n  --light-color-dim: #777d88;\n  --light-color-dimmer: #cfd1d5;\n  --light-color-dimmest: #eff0f1;\n  --light-color-error-background: hsl(0, 100%, 97%);\n  --light-color-error-border: hsl(0, 100%, 92%);\n  --light-color-error-text: #ff0000;\n  --light-color-expand-collapse-toggle: #777d88;\n  --light-color-link: #0000ff;\n  --light-color-modal-background: rgba(255, 255, 255, 0.75);\n  --light-color-record-active: #fc3a4b;\n  --light-color-record-hover: #3578e5;\n  --light-color-record-inactive: #0088fa;\n  --light-color-scroll-thumb: #c2c2c2;\n  --light-color-scroll-track: #fafafa;\n  --light-color-search-match: yellow;\n  --light-color-search-match-current: #f7923b;\n  --light-color-selected-tree-highlight-active: rgba(0, 136, 250, 0.1);\n  --light-color-selected-tree-highlight-inactive: rgba(0, 0, 0, 0.05);\n  --light-color-shadow: rgba(0, 0, 0, 0.25);\n  --light-color-tab-selected-border: #0088fa;\n  --light-color-text: #000000;\n  --light-color-text-invalid: #ff0000;\n  --light-color-text-selected: #ffffff;\n  --light-color-toggle-background-invalid: #fc3a4b;\n  --light-color-toggle-background-on: #0088fa;\n  --light-color-toggle-background-off: #cfd1d5;\n  --light-color-toggle-text: #ffffff;\n  --light-color-tooltip-background: rgba(0, 0, 0, 0.9);\n  --light-color-tooltip-text: #ffffff;\n\n  /* Dark theme */\n  --dark-color-attribute-name: #9d87d2;\n  --dark-color-attribute-name-not-editable: #ededed;\n  --dark-color-attribute-name-inverted: #282828;\n  --dark-color-attribute-value: #cedae0;\n  --dark-color-attribute-value-inverted: #ffffff;\n  --dark-color-attribute-editable-value: yellow;\n  --dark-color-background: #282c34;\n  --dark-color-background-hover: rgba(255, 255, 255, 0.1);\n  --dark-color-background-inactive: #3d424a;\n  --dark-color-background-invalid: #5c0000;\n  --dark-color-background-selected: #178fb9;\n  --dark-color-button-background: #282c34;\n  --dark-color-button-background-focus: #3d424a;\n  --dark-color-button: #afb3b9;\n  --dark-color-button-active: #61dafb;\n  --dark-color-button-disabled: #4f5766;\n  --dark-color-button-focus: #a2e9fc;\n  --dark-color-button-hover: #ededed;\n  --dark-color-border: #3d424a;\n  --dark-color-commit-did-not-render-fill: #777d88;\n  --dark-color-commit-did-not-render-fill-text: #000000;\n  --dark-color-commit-did-not-render-pattern: #666c77;\n  --dark-color-commit-did-not-render-pattern-text: #ffffff;\n  --dark-color-commit-gradient-0: #37afa9;\n  --dark-color-commit-gradient-1: #63b19e;\n  --dark-color-commit-gradient-2: #80b393;\n  --dark-color-commit-gradient-3: #97b488;\n  --dark-color-commit-gradient-4: #abb67d;\n  --dark-color-commit-gradient-5: #beb771;\n  --dark-color-commit-gradient-6: #cfb965;\n  --dark-color-commit-gradient-7: #dfba57;\n  --dark-color-commit-gradient-8: #efbb49;\n  --dark-color-commit-gradient-9: #febc38;\n  --dark-color-commit-gradient-text: #000000;\n  --dark-color-pages-name: #61dafb;\n  --dark-color-pages-name-inverted: #282828;\n  --dark-color-pages-badge-background: rgba(255, 255, 255, 0.25);\n  --dark-color-pages-badge-background-inverted: rgba(0, 0, 0, 0.25);\n  --dark-color-pages-badge-count: #8f949d;\n  --dark-color-pages-badge-count-inverted: rgba(255, 255, 255, 0.7);\n  --dark-color-context-background: rgba(255,255,255,.9);\n  --dark-color-context-background-hover: rgba(0, 136, 250, 0.1);\n  --dark-color-context-background-selected: #0088fa;\n  --dark-color-context-border: #eeeeee;\n  --dark-color-context-text: #000000;\n  --dark-color-context-text-selected: #ffffff;\n  --dark-color-dim: #8f949d;\n  --dark-color-dimmer: #777d88;\n  --dark-color-dimmest: #4f5766;\n  --dark-color-error-background: #200;\n  --dark-color-error-border: #900;\n  --dark-color-error-text: #f55;\n  --dark-color-expand-collapse-toggle: #8f949d;\n  --dark-color-link: #61dafb;\n  --dark-color-modal-background: rgba(0, 0, 0, 0.75);\n  --dark-color-record-active: #fc3a4b;\n  --dark-color-record-hover: #a2e9fc;\n  --dark-color-record-inactive: #61dafb;\n  --dark-color-scroll-thumb: #afb3b9;\n  --dark-color-scroll-track: #313640;\n  --dark-color-search-match: yellow;\n  --dark-color-search-match-current: #f7923b;\n  --dark-color-selected-tree-highlight-active: rgba(23, 143, 185, 0.15);\n  --dark-color-selected-tree-highlight-inactive: rgba(255, 255, 255, 0.05);\n  --dark-color-shadow: rgba(0, 0, 0, 0.5);\n  --dark-color-tab-selected-border: #178fb9;\n  --dark-color-text: #ffffff;\n  --dark-color-text-invalid: #ff8080;\n  --dark-color-text-selected: #ffffff;\n  --dark-color-toggle-background-invalid: #fc3a4b;\n  --dark-color-toggle-background-on: #178fb9;\n  --dark-color-toggle-background-off: #777d88;\n  --dark-color-toggle-text: #ffffff;\n  --dark-color-tooltip-background: rgba(255, 255, 255, 0.9);\n  --dark-color-tooltip-text: #000000;\n\n  /* Font smoothing */\n  --light-font-smoothing: auto;\n  --dark-font-smoothing: antialiased;\n  --font-smoothing: auto;\n\n  /* Compact density */\n  --compact-font-size-monospace-small: 9px;\n  --compact-font-size-monospace-normal: 11px;\n  --compact-font-size-monospace-large: 15px;\n  --compact-font-size-sans-small: 10px;\n  --compact-font-size-sans-normal: 12px;\n  --compact-font-size-sans-large: 14px;\n  --compact-line-height-data: 18px;\n  --compact-root-font-size: 16px;\n\n  /* Comfortable density */\n  --comfortable-font-size-monospace-small: 10px;\n  --comfortable-font-size-monospace-normal: 13px;\n  --comfortable-font-size-monospace-large: 17px;\n  --comfortable-font-size-sans-small: 12px;\n  --comfortable-font-size-sans-normal: 14px;\n  --comfortable-font-size-sans-large: 16px;\n  --comfortable-line-height-data: 22px;\n  --comfortable-root-font-size: 20px;\n\n  /* GitHub.com system fonts */\n  --font-family-monospace: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo,\n    Courier, monospace;\n  --font-family-sans: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica,\n    Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;\n\n  /* Constant values shared between JS and CSS */\n  --interaction-commit-size: 10px;\n  --interaction-label-width: 200px;\n}\n");
 
 /***/ }),
 
@@ -9153,7 +9153,7 @@ exports.inspectHooks = K;
 exports.inspectHooksOfFiber = function (a, b) {
   null == b && (b = p.ReactCurrentDispatcher);
   z = a;
-  if (0 !== a.tag && 15 !== a.tag && 11 !== a.tag && 22 !== a.tag) throw Error("Unknown Fiber. Needs to be a function component to inspect hooks.");
+  if (0 !== a.tag && 15 !== a.tag && 11 !== a.tag && 22 !== a.tag) throw Error("Unknown Fiber. Needs to be a function pages to inspect hooks.");
   A();
   var c = a.type,
       d = a.memoizedProps;
@@ -9644,7 +9644,7 @@ const meta = {
 // Dehydration means that we don't serialize the data for e.g. postMessage or stringify,
 // unless the frontend explicitly requests it (e.g. a user clicks to expand a props object).
 //
-// Reducing this threshold will improve the speed of initial component inspection,
+// Reducing this threshold will improve the speed of initial pages inspection,
 // but may decrease the responsiveness of expanding objects/arrays to inspect further.
 const LEVEL_THRESHOLD = 2;
 /**
