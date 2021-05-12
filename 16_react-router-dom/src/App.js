@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import React, {Component} from "react";
-import {Link, Route} from "react-router-dom";
+import {NavLink, Route} from "react-router-dom";
 
 import About from './pages/About'
 import Home from './pages/Home'
@@ -19,8 +19,8 @@ export default class App extends Component{
                 <div className="row">
                     <div className="col-xs-2 col-xs-offset-2">
                         <div className="list-group">
-                            <Link className="list-group-item" to="/about">About</Link>
-                            <Link className="list-group-item" to="/Home">Home</Link>
+                            <NavLink activeClassName="demo" className="list-group-item" to="/about">About</NavLink>
+                            <NavLink activeClassName="demo" className="list-group-item" to="/Home">Home</NavLink>
                             {/*<a className="list-group-item active" href="./about.html">About</a>*/}
                             {/*<a className="list-group-item" href="./home.html">Home</a>*/}
                         </div>
