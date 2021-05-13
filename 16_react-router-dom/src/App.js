@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import React, {Component} from "react";
-import {Route, Redirect} from "react-router-dom";
+import {Route, Redirect, Switch} from "react-router-dom";
 
 import About from './pages/About'
 import Home from './pages/Home'
@@ -29,9 +29,11 @@ export default class App extends Component{
                     <div className="col-xs-6">
                         <div className="panel">
                             <div className="panel-body">
-                                <Route path="/about" component={About}/>
-                                <Route path="/home" component={Home}/>
-                                <Redirect to="/about"/>
+                                <Switch>
+                                    <Route path="/about" component={About}/>
+                                    <Route path="/home" component={Home}/>
+                                    <Redirect to="/about"/>
+                                </Switch>
                             </div>
                         </div>
                     </div>
