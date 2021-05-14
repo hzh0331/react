@@ -8,7 +8,7 @@ const Details = [
 class Detail extends Component {
 
     render() {
-        const {id, title} = this.props.match.params
+        const {id, title} = this.props.location.state
         let Detail = Details.find((detailObj) =>{
             return detailObj.id === id
         })
