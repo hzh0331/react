@@ -1,40 +1,35 @@
 import React, {Component} from 'react';
+import store from "../../redux/store";
 
 class Count extends Component {
-    state = {
-       count : 0
-    }
     increase = () =>{
-        let {count} = this.state
         let {value} = this.selectedValue
-        this.setState({count:count+value*1})
+        store.dispatch({type:"increase", data: value})
     }
 
     decrease = () =>{
-        let {count} = this.state
         let {value} = this.selectedValue
-        this.setState({count:count-value*1})
+        store.dispatch({type:"decrease", data: value})
     }
 
     increaseIfOdd = () =>{
-        let {count} = this.state
+        let count = store.getState()
         let {value} = this.selectedValue
         if(count % 2 !== 0)
-            this.setState({count:count+value*1})
+            store.dispatch({type:"increase", data: value})
     }
 
     increaseAsync = () =>{
-        let {count} = this.state
         let {value} = this.selectedValue
         setTimeout(() =>{
-            this.setState({count:count+value*1})
+            store.dispatch({type:"increase", data: value})
         }, 500)
     }
 
     render() {
         return (
             <div>
-                <h2>Count : {this.state.count}</h2>
+                <h2>Count : {store.getState()}</h2>
                 <select ref={c => this.selectedValue = c}>
                     <option value="1">1</option>
                     <option value="2">2</option>
