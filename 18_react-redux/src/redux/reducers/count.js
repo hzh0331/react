@@ -1,4 +1,4 @@
-import {INCREASE, DECREASE} from "./const";
+import {INCREASE, DECREASE} from "../const";
 
 const initState = 0
 export default function counterReducer(preState = initState, action){

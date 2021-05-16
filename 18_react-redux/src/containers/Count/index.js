@@ -1,4 +1,4 @@
-import {createIncreaseAction, createDecreaseAction, createIncreaseAsyncAction} from "../../redux/count_action";
+import {createIncreaseAction, createDecreaseAction, createIncreaseAsyncAction} from "../../redux/actions/count";
 
 import {connect} from "react-redux";
 import React, {Component} from "react";
@@ -32,8 +32,8 @@ class Count extends Component {
     render() {
         return (
             <div>
-                {/*<h2>Count : {store.getState()}</h2>*/}
-                <h2>Count : {this.props.count}</h2>
+                <h2>Count Component</h2>
+                <h4>Count : {this.props.count}</h4>
                 <select ref={c => this.selectedValue = c}>
                     <option value="1">1</option>
                     <option value="2">2</option>
