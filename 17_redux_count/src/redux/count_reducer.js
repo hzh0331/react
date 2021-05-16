@@ -1,11 +1,13 @@
+import {INCREASE, DECREASE} from "./const";
+
 const initState = 0
-export default function counterReducer(preState = 0, action){
+export default function counterReducer(preState = initState, action){
     const {type, data} = action
     switch (type){
-        case "increase":
-            return preState + data * 1;
-        case "decrease":
-            return preState + data * 1;
+        case INCREASE:
+            return preState + data;
+        case DECREASE:
+            return preState - data;
         default:
             return preState
     }

@@ -1,28 +1,29 @@
 import React, {Component} from 'react';
 import store from "../../redux/store";
+import {createIncreaseAction, createDecreaseAction} from "../../redux/count_action";
 
 class Count extends Component {
     increase = () =>{
         let {value} = this.selectedValue
-        store.dispatch({type:"increase", data: value})
+        store.dispatch(createIncreaseAction(value*1))
     }
 
     decrease = () =>{
         let {value} = this.selectedValue
-        store.dispatch({type:"decrease", data: value})
+        store.dispatch(createDecreaseAction(value*1))
     }
 
     increaseIfOdd = () =>{
         let count = store.getState()
         let {value} = this.selectedValue
         if(count % 2 !== 0)
-            store.dispatch({type:"increase", data: value})
+            store.dispatch(createIncreaseAction(value*1))
     }
 
     increaseAsync = () =>{
         let {value} = this.selectedValue
         setTimeout(() =>{
-            store.dispatch({type:"increase", data: value})
+            store.dispatch(createIncreaseAction(value*1))
         }, 500)
     }
 
