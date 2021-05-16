@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import store from "../../redux/store";
-import {createIncreaseAction, createDecreaseAction} from "../../redux/count_action";
+import {createIncreaseAction, createDecreaseAction, createIncreaseAsyncAction} from "../../redux/count_action";
 
 class Count extends Component {
     increase = () =>{
@@ -23,7 +23,7 @@ class Count extends Component {
     increaseAsync = () =>{
         let {value} = this.selectedValue
         setTimeout(() =>{
-            store.dispatch(createIncreaseAction(value*1))
+            store.dispatch(createIncreaseAsyncAction(value*1, 1000))
         }, 500)
     }
 
