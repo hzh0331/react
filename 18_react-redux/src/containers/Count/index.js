@@ -33,7 +33,7 @@ class Count extends Component {
         return (
             <div>
                 <h2>Count Component</h2>
-                <h4>Count : {this.props.count}</h4>
+                <h4>Count : {this.props.count}, people : {this.props.number}</h4>
                 <select ref={c => this.selectedValue = c}>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -50,7 +50,10 @@ class Count extends Component {
 
 
 export default connect(
-    state => ({count:state}),
+    state => ({
+        count:state.count,
+        number:state.person.length
+    }),
     {
         increase:createIncreaseAction,
         decrease:createDecreaseAction,

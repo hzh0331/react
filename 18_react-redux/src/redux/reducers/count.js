@@ -1,7 +1,7 @@
 import {INCREASE, DECREASE} from "../const";
 
 const initState = 0
-export default function counterReducer(preState = initState, action){
+export default function countReducer(preState = initState, action){
     const {type, data} = action
     switch (type){
         case INCREASE:
