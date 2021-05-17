@@ -1,4 +1,4 @@
-import {createIncreaseAction, createDecreaseAction, createIncreaseAsyncAction} from "../../redux/actions/count";
+import {increase, decrease, asyncIncrease} from "../../redux/actions/count";
 
 import {connect} from "react-redux";
 import React, {Component} from "react";
@@ -55,8 +55,8 @@ export default connect(
         number:state.person.length
     }),
     {
-        increase:createIncreaseAction,
-        decrease:createDecreaseAction,
-        asyncIncrease:createIncreaseAsyncAction
+        increase,
+        decrease,
+        asyncIncrease
     }
 )(Count)

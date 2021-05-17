@@ -1,12 +1,12 @@
 import {INCREASE, DECREASE} from "../const";
 
-export const createIncreaseAction = data => ({type:INCREASE ,data})
-export const createDecreaseAction = data => ({type:DECREASE ,data})
+export const increase = data => ({type:INCREASE ,data})
+export const decrease = data => ({type:DECREASE ,data})
 
-export const createIncreaseAsyncAction = (data, time) => {
+export const asyncIncrease = (data, time) => {
     return (dispatch)=>{
         setTimeout(()=>{
-            dispatch(createIncreaseAction(data))
+            dispatch(increase(data))
         }, time)
     }
 }
