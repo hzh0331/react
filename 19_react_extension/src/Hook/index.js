@@ -4,6 +4,12 @@ import ReactDOM from 'react-dom'
 function Hook(){
     const [count, setCount] = React.useState(0);
     const [name, setName] = React.useState('Tom');
+    const myRef = React.useRef()
+
+    function show(){
+        alert(myRef.current.value)
+    }
+
 
     React.useEffect(() =>{
         let timer = setInterval(()=>{
@@ -33,6 +39,8 @@ function Hook(){
             <h2>name:{name}</h2>
             <button onClick={changeName}>change name</button>
             <button onClick={unmount}>unmount</button>
+            <input ref={myRef}/>
+            <button onClick={show}>view input</button>
         </div>
     )
 
